@@ -1,0 +1,30 @@
+version: 0.2
+
+env:
+    secrets-manager:
+        backendIP: wrkshpSecrets:AppServer_PrivateIP
+        
+phases:
+  build:
+    commands:
+       - chmod +x gradlew
+       - ./gradlew clean codeCoverageReport sonarqube
+       - curl -s --connect-timeout 8 -d "{\"moduleName\":\"codecoverage_static_api\",\"status\":\"Completed\"}"   -H 'Content-Type:application/json' http://$backendIP:3337/api/v1/aws_dashboard_report/moudule/update || true
+
+reports:
+  SpringBoot_Test_Reports:
+    files:
+      - "*.xml"
+    file-format: JunitXml
+    base-directory: '*/build/test-results/test/'
+
+#artifacts:
+  #files:
+    # - location
+    # - location
+  #name: $(date +%Y-%m-%d)
+  #discard-paths: yes
+  #base-directory: location
+#cache:
+  #paths:
+    # - paths

@@ -1,0 +1,12 @@
+
+/.idea/
+/.gradle/
+/catalogue-service/build/
+/image-service/build/
+/customer-service/build/
+/cart-service/build/
+/order-service/build/
+/service-registry/build/
+/payment-service/build/
+/build
+/catalogue-service/out
