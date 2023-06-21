@@ -1,26 +1,10 @@
 version: '3.2'
 
 services:
-  db:
-    build: ./mssql-docker/
-    image: mcmoe/mssqldocker:v2017.CU20.0
-    environment:
-      ACCEPT_EULA: Y
-      SA_PASSWORD: Ctsshop@db
-      MSSQL_DB: ctsshop
-    networks:
-      - user-mssql
-#      MSSQL_USER: testuser
-#      MSSQL_PASSWORD: testpass
-    ports:
-      - "1433:1433"
-    container_name: mssql-container
   service-registry:
     build: ./service-registry
     image: ctsshop/service-registry-1.0.jar:v1.0
     container_name: service-registry
-    depends_on:
-      - db
     ports:
     - "8180:8180"
     networks:
@@ -30,7 +14,6 @@ services:
     image: ctsshop/catalogue-service-1.0.jar:v1.0
     container_name: catalogue-service
     depends_on:
-      - db
       - service-registry
     networks:
       - user-mssql
@@ -41,7 +24,6 @@ services:
     image: ctsshop/customer-service-1.0.jar:v1.0
     container_name: customer-service
     depends_on:
-      - db
       - service-registry
     networks:
       - user-mssql
@@ -52,7 +34,6 @@ services:
     image: ctsshop/image-service-1.0.jar:v1.0
     container_name: image-service
     depends_on:
-      - db
       - service-registry
     networks:
       - user-mssql
@@ -63,7 +44,6 @@ services:
     image: ctsshop/payment-service-1.0.jar:v1.0
     container_name: payment-service
     depends_on:
-      - db
       - service-registry
     networks:
       - user-mssql
